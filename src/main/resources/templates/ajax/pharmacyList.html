@@ -25,7 +25,20 @@
           type: "post",
           data: datas,
           success: function(data) {
-            console.log(data);
+            const tbody = $("#tbl-pharmacyList > tbody");
+            tbody.empty();
+
+            for (let i = 0; i < data.length; i++) {
+              let result = "<tr>";
+              result += "<td>" + data[i].dutyName + "</td>";
+              result += "<td>" + data[i].dutyTel1 + "</td>";
+              result += "<td>" + data[i].dutyAddr + "</td>";
+              result += "<td>" + data[i].dutyTime1s + "</td>";
+              result += "<td>" + data[i].dutyTime1c + "</td>";
+              result += "</tr>";
+
+              tbody.append(result);
+            }
           },
           error: function(err) {
             alert("오류 발생");
