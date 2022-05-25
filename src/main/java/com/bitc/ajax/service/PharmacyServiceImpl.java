@@ -7,6 +7,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 @Service
@@ -35,6 +38,42 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 //    실제 우리가 원하는 데이터만 추출
     List<PharmacyItemDto> itemList = itemsData.getItemList();
+
+    return itemList;
+  }
+
+  @Override
+  public List<PharmacyItemDto> getItemListUrl(String serviceUrl) throws Exception {
+    List<PharmacyItemDto> itemList = null;
+
+    // URL 클래스 : URL을 추상화하여 만든 클래스
+    URL url = null;
+//    HttpURLConnection 클래스 : 원격 자원에 접근하는데 필요한 정보를 가지고 있는 클래스
+    HttpURLConnection urlConn = null;
+
+//    네트워크라는 외부 자원을 사용하기 때문에 반드시 예외처리가 필요함
+    try {
+//      실제 url 주소를 가지고 객체화함
+      url = new URL(serviceUrl);
+//      지정된 url 주소로 접속
+      urlConn = (HttpURLConnection) url.openConnection();
+      urlConn.setRequestMethod("GET"); // GET 방식으로 접속
+
+      JAXBContext jc = JAXBContext.newInstance(PharmacyFullDataDto.class);
+      Unmarshaller um = jc.createUnmarshaller();
+
+//      xml 파일 데이터가 아닌 외부 서버의 자원에 접근하여 xml 데이터를 파싱
+      PharmacyFullDataDto fullData = (PharmacyFullDataDto) um.unmarshal(url);
+      itemList = fullData.getBody().getItems().getItemList();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+    finally {
+      if (urlConn != null) {
+        urlConn.disconnect();
+      }
+    }
 
     return itemList;
   }
