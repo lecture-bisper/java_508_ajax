@@ -39,6 +39,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime
     compileOnly 'org.glassfish.jaxb:jaxb-runtime'
 
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+
 }
 
 tasks.named('test') {
