@@ -34,14 +34,26 @@ public class XmlController {
   @RequestMapping(value = "/pharmacy/ajaxFullData", method = RequestMethod.POST)
   public Object getAjaxPharmacyFullData(@RequestParam Map<String, String> request) throws Exception {
 
-//    https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/
-//    getParmacyFullDown?
-//    serviceKey=MQ8moCpDCqz42c3kxwz2LHfm%2BevXvXYOTYnrZjpLTYgYqArm4QD7hxWxCGM%2F24BBmgODLVMFUM6mAAH4XCFQcg%3D%3D
-//    &pageNo=1
-//    &numOfRows=10
-
     List<PharmacyItemDto> itemList = pharmacyService.getItemList();
 
     return itemList;
   }
+
+  @ResponseBody
+  @RequestMapping(value = "/pharmacy/ajaxFullDataUrl", method = RequestMethod.POST)
+  public Object getAjaxPharmacyFullDataUrl(@RequestParam("pageNo") int pageNo, @RequestParam("numOfRows") int numOfRows) throws Exception {
+    String endPoint = "http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/";
+    String serviceFunc = "getParmacyFullDown?";
+    String serviceKey = "serviceKey=MQ8moCpDCqz42c3kxwz2LHfm%2BevXvXYOTYnrZjpLTYgYqArm4QD7hxWxCGM%2F24BBmgODLVMFUM6mAAH4XCFQcg%3D%3D";
+    String option1 = "&pageNo=";
+    String option2 = "&numOfRows=";
+
+    String serviceUrl = endPoint + serviceFunc + serviceKey + option1 + pageNo + option2 + numOfRows;
+
+    List<PharmacyItemDto> itemList = pharmacyService.getItemListUrl(serviceUrl);
+
+    return itemList;
+  }
+
+
 }
