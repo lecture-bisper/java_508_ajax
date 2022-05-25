@@ -45,6 +45,37 @@
           }
         });
       });
+
+      $("#btn-loadUrl").on("click", function() {
+        const numOfRowsUrl = $("#numOfRowsUrl option:selected").val();
+        const pageNoUrl = $("#pageNumUrl").val();
+        const datas = {pageNo: pageNoUrl, numOfRows: numOfRowsUrl};
+
+        $.ajax({
+          url:"/pharmacy/ajaxFullDataUrl",
+          type: "post",
+          data: datas,
+          success: function(data) {
+            const tbody = $("#tbl-pharmacyListUrl > tbody");
+            tbody.empty();
+
+            for (let i = 0; i < data.length; i++) {
+              let result = "<tr>";
+              result += "<td>" + data[i].dutyName + "</td>";
+              result += "<td>" + data[i].dutyTel1 + "</td>";
+              result += "<td>" + data[i].dutyAddr + "</td>";
+              result += "<td>" + data[i].dutyTime1s + "</td>";
+              result += "<td>" + data[i].dutyTime1c + "</td>";
+              result += "</tr>";
+
+              tbody.append(result);
+            }
+          },
+          error: function(err) {
+            alert("오류 발생");
+          }
+        });
+      });
     });
   </script>
 </head>
@@ -52,6 +83,7 @@
   <main class="container">
     <div class="row">
       <div class="col-md mx-auto">
+        <h3>화면이 열리자마자 xml 파일 데이터 불러오기</h3>
         <table class="table table-hover table-striped">
           <thead>
             <tr>
@@ -78,10 +110,11 @@
       </div>
     </div>
 
-    <hr>
+    <hr class="mb-5">
 
     <div class="row">
       <div class="col-md mx-auto">
+        <h3>버튼 클릭 시 xml 파일 데이터 불러오기</h3>
         <table id="tbl-pharmacyList" class="table table-hover table-striped">
           <thead>
             <tr>
@@ -118,6 +151,54 @@
         </div>
       </div>
     </div>
+
+    <hr class="mb-5">
+
+    <div class="row">
+      <div class="col-md mx-auto">
+        <h3>버튼 클릭 시 서버에서 xml 데이터 가져오기</h3>
+        <table id="tbl-pharmacyListUrl" class="table table-hover table-striped">
+          <thead>
+          <tr>
+            <th>상호명</th>
+            <th>전화번호</th>
+            <th>주소</th>
+            <th>시작시간</th>
+            <th>종료시간</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="5" class="text-center">조회된 데이터가 없습니다.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="my-3">
+          <div class="row">
+            <div class="col-md">
+              <select id="numOfRowsUrl" class="form-select">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+            <div class="col-md">
+              <div class="input-group">
+                <span class="input-group-text">페이지</span>
+                <input type="number" class="form-control" id="pageNumUrl" name="pageNum" min="1" value="1" placeholder="조회할 페이지 번호를 입력하세요">
+              </div>
+            </div>
+            <div class="col-md d-grid">
+              <button type="button" id="btn-loadUrl" class="btn btn-primary">데이터 조회</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
+<footer class="mt-4 border-top p-5">
+  <p class="lead text-muted text-center">made by bitc</p>
+</footer>
 </body>
 </html>
