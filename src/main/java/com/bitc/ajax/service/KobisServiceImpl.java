@@ -34,7 +34,7 @@ public class KobisServiceImpl implements KobisService {
                 itemList = boxOfficeResult.getDailyBoxOfficeList().getItemList();
             }
             else {
-                itemList = getItemListJson(serviceUrl);
+//                itemList = getItemListJson(serviceUrl);
             }
         }
         catch (Exception e) {

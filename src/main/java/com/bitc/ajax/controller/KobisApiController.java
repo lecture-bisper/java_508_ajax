@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class KobisApiController {
         return "kobis/dailyBoxOfficeList";
     }
 
-    @RequestMapping("/kobis/dailyBoxOfficeListXml")
+    @RequestMapping(value = "/kobis/dailyBoxOfficeListXml", method = RequestMethod.POST)
     public Object kobisDailyBoxOfficeListXml(@RequestParam("targetDt") String targetDt) throws Exception {
         String endPoint = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/";
         String serviceFunc = "searchDailyBoxOfficeList.xml?";
@@ -41,7 +42,7 @@ public class KobisApiController {
         return itemList;
     }
 
-    @RequestMapping("/kobis/dailyBoxOfficeListJson")
+    @RequestMapping(value = "/kobis/dailyBoxOfficeListJson", method = RequestMethod.POST)
     public Object kobisDailyBoxOfficeListJson(@RequestParam("targetDt") String targetDt) throws Exception {
         String endPoint = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/";
         String serviceFunc = "searchDailyBoxOfficeList.json?";

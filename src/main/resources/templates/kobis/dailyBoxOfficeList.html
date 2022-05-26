@@ -14,13 +14,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
-        $(document).ready(() => {
+        $(document).ready(function() {
             $("#btn-loadXml").on("click", () => {
+                const startCreateDtUrl = $("#startCreateDtUrl").val();
+                const datas = {targetDt: startCreateDtUrl};
 
+                $.ajax({
+                    url:"/kobis/dailyBoxOfficeListXml",
+                    type: "post",
+                    data: datas,
+                    success: function(data) {
+                        const tbody = $("#tbl-dailyBoxOfficeList > tbody");
+                        tbody.empty();
+
+                        for (let i = 0; i < data.length; i++) {
+                            let result = "<tr>";
+                            result += "<td>" + data[i].seq + "</td>";
+                            result += "<td>" + data[i].stateDt + "</td>";
+                            result += "<td>" + data[i].decideCnt + "</td>";
+                            result += "<td>" + data[i].deathCnt + "</td>";
+                            result += "<td>" + data[i].stateTime + "</td>";
+                            result += "<td>" + data[i].updateDt + "</td>";
+                            result += "</tr>";
+
+                            tbody.append(result);
+                        }
+                    },
+                    error: function(err) {
+                        alert("오류 발생");
+                    }
+                });
             });
 
             $("#btn-loadJson").on("click", () => {
-
+                alert("json");
             });
         });
     </script>
