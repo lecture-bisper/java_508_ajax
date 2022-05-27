@@ -36,6 +36,7 @@ public class KobisServiceImpl implements KobisService {
         obj = itemList;
       }
       else {
+//        getInputStream() : URL 클래스 객체에서 지정한 주소에 요청한 데이터를 가져옴
         InputStream in = new BufferedInputStream(urlConn.getInputStream());
 
 //        BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -44,7 +45,10 @@ public class KobisServiceImpl implements KobisService {
 //        while ((line = br.readLine()) != null) sb.append(line);
 //        br.close();
 
+//        Gson 객체 생성
         Gson gson = new Gson();
+//        기존에 만들어진 Dto 클래스 타입에 맞춰서 JSON 데이터 가져오기
+//        Gson을 이용하여 json 문자열을 자바의 지정한 클래스 타입으로 변환
         BoxOfficeJsonDto boxOfficeJsonResult = gson.fromJson(new InputStreamReader(in), BoxOfficeJsonDto.class);
         List<DailyBoxOfficeJsonDto> itemList = boxOfficeJsonResult.getBoxOfficeResult().getDailyBoxOfficeList();
         obj = itemList;

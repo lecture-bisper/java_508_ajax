@@ -55,6 +55,7 @@ public class KobisApiController {
 
     String serviceUrl = endPoint + serviceFunc + serviceKey  + secKey + opt1 + targetDt.replace( "-", "");
 
+//    반환된 값이 Object 타입으로 되어 있으므로 사용 시 강제 타입 변환을 해줌
     List<DailyBoxOfficeJsonDto> itemList = (List<DailyBoxOfficeJsonDto>) kobisService.getItemListUrl(serviceUrl, "json");
 
     return itemList;
